@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 import Colors from "../../constants/colors";
 
 const Card = ({ children }) => {
@@ -7,12 +7,14 @@ const Card = ({ children }) => {
 
 export default Card;
 
+const deviseWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   card: {
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
-    marginTop: 36,
+    marginTop: deviseWidth < 380 ? 18 : 36,
     marginHorizontal: 24,
     backgroundColor: Colors.primary800,
     borderRadius: 8,

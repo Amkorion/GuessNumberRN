@@ -1,4 +1,5 @@
 import { LinearGradient } from "expo-linear-gradient";
+import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { ImageBackground, StyleSheet, SafeAreaView } from "react-native";
 import Colors from "./constants/colors";
@@ -24,8 +25,6 @@ export default function App() {
     setGameStarted(null);
     setRoundsQuantity(0);
   }
-
-  function roundCounter(rounds) {}
 
   let screen = (
     <StartGameScreen
@@ -53,19 +52,22 @@ export default function App() {
   }
 
   return (
-    <LinearGradient
-      colors={[Colors.primary700, Colors.secondary500]}
-      style={styles.mainContainer}
-    >
-      <ImageBackground
-        source={require("./assets/images/background.png")}
-        resizeMode="cover"
+    <>
+      <StatusBar style="light" />
+      <LinearGradient
+        colors={[Colors.primary700, Colors.secondary500]}
         style={styles.mainContainer}
-        imageStyle={styles.backgroundImage}
       >
-        <SafeAreaView style={styles.mainContainer}>{screen}</SafeAreaView>
-      </ImageBackground>
-    </LinearGradient>
+        <ImageBackground
+          source={require("./assets/images/background.png")}
+          resizeMode="cover"
+          style={styles.mainContainer}
+          imageStyle={styles.backgroundImage}
+        >
+          <SafeAreaView style={styles.mainContainer}>{screen}</SafeAreaView>
+        </ImageBackground>
+      </LinearGradient>
+    </>
   );
 }
 

@@ -1,11 +1,11 @@
-import { Alert, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Alert, StyleSheet, useWindowDimensions, View } from "react-native";
+import Card from "../components/UI/Card";
 import MyText from "../components/UI/MyText";
 import NumberContainer from "../components/UI/NumberContainer";
 import PrimaryButton from "../components/UI/PrimaryButton";
 import Title from "../components/UI/Title";
-import Card from "../components/UI/Card";
 import Colors from "../constants/colors";
 
 function generateRandomBetween(min, max, exclude) {
@@ -24,6 +24,7 @@ const GameScreen = ({ playerNumber, onGameOver }) => {
   const initialGuess = generateRandomBetween(1, 100, playerNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
   const [rounds, setRounds] = useState(1);
+  const { width, height } = useWindowDimensions();
 
   useEffect(() => {
     if (currentGuess == playerNumber) {
@@ -63,9 +64,8 @@ const GameScreen = ({ playerNumber, onGameOver }) => {
     setRounds((prevRounds) => prevRounds + 1);
   };
 
-  return (
-    <View style={styles.screen}>
-      <Title>Ваше число:</Title>
+  let content = (
+    <>
       <NumberContainer>{currentGuess}</NumberContainer>
       <Card>
         <MyText style={styles.instructionText}>Більше чи Меньше?</MyText>
@@ -82,6 +82,33 @@ const GameScreen = ({ playerNumber, onGameOver }) => {
           </View>
         </View>
       </Card>
+    </>
+  );
+
+  if (width > 500) {
+    content = (
+      <>
+        <View style={styles.btnsContainerWide}>
+          <View style={styles.button}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "greater")}>
+              <Ionicons name="md-add" size={24} color="white" />
+            </PrimaryButton>
+          </View>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <View style={styles.button}>
+            <PrimaryButton onPress={nextGuessHandler.bind(this, "lower")}>
+              <Ionicons name="md-remove" size={24} color="white" />
+            </PrimaryButton>
+          </View>
+        </View>
+      </>
+    );
+  }
+
+  return (
+    <View style={styles.screen}>
+      <Title>Ваше число:</Title>
+      {content}
       <View>
         <MyText style={styles.text}>{`${rounds} РАУНД`}</MyText>
       </View>
@@ -95,9 +122,14 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
+    alignItems: "center",
   },
   buttonsContainer: {
     flexDirection: "row",
+  },
+  btnsContainerWide: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   button: {
     flex: 1,
